@@ -66,6 +66,17 @@ body {
     cursor: pointer;
 }
 
+.form-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.form-field {
+    display: grid;
+    gap: 8px;
+}
+
 .alert {
     padding: 12px 14px;
     border-radius: 10px;
@@ -125,8 +136,8 @@ body {
 
 .panel-canvas {
     position: relative;
-    width: 1920px;
-    height: 300px;
+    width: 1280px;
+    height: 720px;
     overflow: hidden;
     color: #fff;
 }
@@ -161,8 +172,8 @@ body {
 }
 
 .team-flag {
-    width: 56px;
-    height: 56px;
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
     background: #1e293b;
     display: flex;
@@ -171,6 +182,23 @@ body {
     font-weight: 700;
     font-size: 20px;
     border: 2px solid rgba(255, 255, 255, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.team-flag-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+}
+
+.team-flag-letter {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .team-details {
@@ -242,7 +270,7 @@ body {
 
 .player-cards {
     position: absolute;
-    bottom: 52px;
+    bottom: 140px;
     left: 40px;
     right: 40px;
     display: grid;
@@ -285,7 +313,7 @@ body {
 
 .ball-strip {
     position: absolute;
-    bottom: 12px;
+    bottom: 60px;
     left: 40px;
     right: 40px;
     display: grid;

@@ -18,6 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'panel_id' => $panelId,
             'url' => $url,
             'created_at' => time(),
+            'team_a_name' => trim($_POST['team_a_name'] ?? ''),
+            'team_b_name' => trim($_POST['team_b_name'] ?? ''),
+            'team_a_flag' => trim($_POST['team_a_flag'] ?? ''),
+            'team_b_flag' => trim($_POST['team_b_flag'] ?? ''),
         ];
         $configPath = $APP_CONFIG['cache_path'] . '/panel_' . $panelId . '_config.json';
         if (!is_dir($APP_CONFIG['cache_path'])) {
@@ -50,6 +54,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form method="post" class="dashboard-form">
             <label for="crex_url">Crex Live Match URL</label>
             <input type="url" id="crex_url" name="crex_url" placeholder="https://crex.com/scoreboard/.../live" required>
+            <div class="form-grid">
+                <div class="form-field">
+                    <label for="team_a_name">Team A Name (optional)</label>
+                    <input type="text" id="team_a_name" name="team_a_name" placeholder="Team A display name">
+                </div>
+                <div class="form-field">
+                    <label for="team_b_name">Team B Name (optional)</label>
+                    <input type="text" id="team_b_name" name="team_b_name" placeholder="Team B display name">
+                </div>
+                <div class="form-field">
+                    <label for="team_a_flag">Team A Flag URL (optional)</label>
+                    <input type="url" id="team_a_flag" name="team_a_flag" placeholder="https://example.com/team-a.png">
+                </div>
+                <div class="form-field">
+                    <label for="team_b_flag">Team B Flag URL (optional)</label>
+                    <input type="url" id="team_b_flag" name="team_b_flag" placeholder="https://example.com/team-b.png">
+                </div>
+            </div>
             <button type="submit">Generate OBS Panel</button>
             <?php if ($error): ?>
                 <div class="alert alert-error"><?php echo htmlspecialchars($error, ENT_QUOTES); ?></div>
@@ -74,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <ol class="instructions">
                     <li>Open OBS Studio and add a new Browser Source.</li>
                     <li>Paste the OBS Browser Source URL above.</li>
-                    <li>Set width to 1920 and height to 300.</li>
+                    <li>Set width to 1280 and height to 720.</li>
                     <li>Enable "Refresh browser when scene becomes active".</li>
                 </ol>
             </section>

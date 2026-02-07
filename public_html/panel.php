@@ -18,6 +18,13 @@ if (!is_file($configPath)) {
 }
 
 $baseUrl = app_base_url();
+$config = json_decode((string)file_get_contents($configPath), true) ?? [];
+$overrides = [
+    'teamAName' => $config['team_a_name'] ?? '',
+    'teamBName' => $config['team_b_name'] ?? '',
+    'teamAFlag' => $config['team_a_flag'] ?? '',
+    'teamBFlag' => $config['team_b_flag'] ?? '',
+];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,7 +39,10 @@ $baseUrl = app_base_url();
         <div class="panel-background"></div>
         <header class="panel-header">
             <div class="team-block" id="team-a">
-                <div class="team-flag" id="team-a-flag">A</div>
+                <div class="team-flag" id="team-a-flag">
+                    <img src="assets/images/player.svg" alt="Team A flag" class="team-flag-image" id="team-a-flag-image">
+                    <span class="team-flag-letter" id="team-a-flag-letter">A</span>
+                </div>
                 <div class="team-details">
                     <div class="team-name" id="team-a-name">Team A</div>
                     <div class="team-score">
@@ -50,7 +60,10 @@ $baseUrl = app_base_url();
                         <span class="team-overs" id="team-b-overs">0.0 ov</span>
                     </div>
                 </div>
-                <div class="team-flag" id="team-b-flag">B</div>
+                <div class="team-flag" id="team-b-flag">
+                    <img src="assets/images/player.svg" alt="Team B flag" class="team-flag-image" id="team-b-flag-image">
+                    <span class="team-flag-letter" id="team-b-flag-letter">B</span>
+                </div>
             </div>
         </header>
 
@@ -120,7 +133,8 @@ $baseUrl = app_base_url();
     <script>
         window.PANEL_CONFIG = {
             panelId: <?php echo json_encode($panelId); ?>,
-            fetchUrl: <?php echo json_encode($baseUrl . '/fetch.php?panel_id=' . $panelId); ?>
+            fetchUrl: <?php echo json_encode($baseUrl . '/fetch.php?panel_id=' . $panelId); ?>,
+            overrides: <?php echo json_encode($overrides); ?>
         };
     </script>
     <script src="assets/js/panel.js"></script>

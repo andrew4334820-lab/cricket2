@@ -1,14 +1,19 @@
 (() => {
     const config = window.PANEL_CONFIG || {};
+    const overrides = config.overrides || {};
     const els = {
         teamAName: document.getElementById('team-a-name'),
         teamAScore: document.getElementById('team-a-score'),
         teamAOvers: document.getElementById('team-a-overs'),
         teamAFlag: document.getElementById('team-a-flag'),
+        teamAFlagImage: document.getElementById('team-a-flag-image'),
+        teamAFlagLetter: document.getElementById('team-a-flag-letter'),
         teamBName: document.getElementById('team-b-name'),
         teamBScore: document.getElementById('team-b-score'),
         teamBOvers: document.getElementById('team-b-overs'),
         teamBFlag: document.getElementById('team-b-flag'),
+        teamBFlagImage: document.getElementById('team-b-flag-image'),
+        teamBFlagLetter: document.getElementById('team-b-flag-letter'),
         status: document.getElementById('match-status'),
         crr: document.getElementById('metric-crr'),
         rrr: document.getElementById('metric-rrr'),
@@ -34,13 +39,27 @@
     };
 
     const renderTeam = (team, prefix) => {
-        const name = sanitize(team?.name) || `Team ${prefix}`;
+        const overrideName = prefix === 'A' ? overrides.teamAName : overrides.teamBName;
+        const overrideFlag = prefix === 'A' ? overrides.teamAFlag : overrides.teamBFlag;
+        const name = sanitize(overrideName) || sanitize(team?.name) || `Team ${prefix}`;
         const score = sanitize(team?.score) || '--';
         const overs = sanitize(team?.overs) ? `${team.overs} ov` : '--';
         setText(els[`team${prefix}Name`], name);
         setText(els[`team${prefix}Score`], score);
         setText(els[`team${prefix}Overs`], overs);
-        setText(els[`team${prefix}Flag`], name.charAt(0).toUpperCase());
+        const flagImageEl = prefix === 'A' ? els.teamAFlagImage : els.teamBFlagImage;
+        const flagLetterEl = prefix === 'A' ? els.teamAFlagLetter : els.teamBFlagLetter;
+        if (flagImageEl && flagLetterEl) {
+            if (overrideFlag) {
+                flagImageEl.src = overrideFlag;
+                flagImageEl.style.display = 'block';
+                flagLetterEl.style.display = 'none';
+            } else {
+                flagImageEl.style.display = 'none';
+                flagLetterEl.style.display = 'flex';
+                flagLetterEl.textContent = name.charAt(0).toUpperCase();
+            }
+        }
     };
 
     const renderBatsman = (batsman, index) => {
@@ -112,5 +131,5 @@
     };
 
     fetchData();
-    setInterval(fetchData, 1000);
+    setInterval(fetchData, 10000);
 })();
